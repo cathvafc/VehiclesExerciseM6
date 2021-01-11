@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace M6Exercise.dto
 {
@@ -24,6 +25,8 @@ namespace M6Exercise.dto
 
             lengthMatricula = matricula.Length;
 
+            char[] charArray = new char[lengthMatricula];
+
             if (lengthMatricula < 6 || lengthMatricula > 7)
             {
                 result = true;
@@ -31,10 +34,16 @@ namespace M6Exercise.dto
             }
             else
             {
+
+                using (StringReader sr = new StringReader(matricula))
+                {
+                    sr.Read(charArray, 0, lengthMatricula);
+                }
+
                 //Checkers
                 for (int i = 0; i < 4; i++)
                 {
-                    priorResult = char.IsLetter(matricula[i]);
+                    priorResult = char.IsDigit(charArray[i]);
 
                     if (!priorResult)
                     {
@@ -45,9 +54,9 @@ namespace M6Exercise.dto
 
                 if (priorResult)
                 {
-                    for (int j = 4; j < matricula.Length; j++)
+                    for (int j = 4; j < charArray.Length; j++)
                     {
-                        priorResult = char.IsDigit(matricula[j]);
+                        priorResult = char.IsLetter(charArray[j]);
 
                         if (!priorResult)
                         {
